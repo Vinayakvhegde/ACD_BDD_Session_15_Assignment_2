@@ -1,0 +1,62 @@
+CREATE TABLE IF NOT EXISTS OlympicTextData (
+Athelete String, 
+Age int, 
+Country String, 
+year int,
+ClosingDate String, 
+Sport String, 
+GoldMedal int, 
+SilverMedal int, 
+BronzeMedal int,  
+TotalMedals BIGINT )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE ;
+
+LOAD DATA INPATH 'class15A2/olympicsdata.csv' INTO TABLE OlympicTextData ;
+
+CREATE TABLE IF NOT EXISTS OlympicData (
+Athelete String, 
+Age int, 
+Country String, 
+year int,
+ClosingDate String, 
+Sport String, 
+GoldMedal int, 
+SilverMedal int, 
+BronzeMedal int,  
+TotalMedals BIGINT )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS ORC ;
+
+INSERT OVERWRITE TABLE OlympicData
+SELECT * FROM OlympicTextData ;
+
+Question 1. 
+
+SELECT Country, SUM(TotalMedals) FROM OlympicData
+WHERE Sport = 'Swimming'
+GROUP BY Country ;
+
+Question 2.
+
+Select Year, SUM(TotalMedals) FROM OlympicData 
+WHERE Country = 'India' 
+GROUP BY Year
+ORDER BY Year ;
+
+Question 3.
+
+SELECT Country, SUM(TotalMedals) FROM OlympicData
+GROUP BY Country ;
+
+Question 4.
+
+SELECT Country, SUM(GoldMedal) FROM OlympicData
+GROUP BY Country ;
+
+
+
